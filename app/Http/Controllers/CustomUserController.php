@@ -28,8 +28,24 @@ class CustomUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        return'store method'; //
+        //we have to do server side validation
+        $request->validate([
+            'name'=>'required',
+            'email'=>'required',
+            'password'=>'required|confirmed|min:8',
+            'password_confirmation'=>'required:min:8'
+        ]);
+        // dd($request->all()); //dump and die
+
+        // so now my data is valid 
+        // i want to store into db and
+        // 1. Querybuilder
+        // 2. Eloquent ORM
+        // using eloquent
+        CustomUser::create($request->all());
+
+        //dump all the incoming data
+        return redirect("/register")->withSuccess('User Registered successfully');        
     }
 
     /**
